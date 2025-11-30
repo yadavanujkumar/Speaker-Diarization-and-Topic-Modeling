@@ -18,6 +18,7 @@ import argparse
 import json
 import os
 import sys
+import tempfile
 import warnings
 from dataclasses import dataclass
 from typing import Optional
@@ -307,7 +308,9 @@ class Transcriber:
             # If audio segment provided, save it temporarily
             temp_path = None
             if audio_segment is not None:
-                temp_path = "/tmp/temp_segment.wav"
+                # Use tempfile for cross-platform compatibility
+                temp_fd, temp_path = tempfile.mkstemp(suffix='.wav')
+                os.close(temp_fd)
                 audio_segment.export(temp_path, format="wav")
                 audio_path = temp_path
             
@@ -590,8 +593,13 @@ class TopicModeler:
         ]
         
         # Assign random topics to documents
+        # Handle edge cases where texts list is empty or has only one element
         import random
-        document_topics = [random.randint(0, min(4, len(texts) - 1)) for _ in texts]
+        if len(texts) == 0:
+            document_topics = []
+        else:
+            max_topic_idx = min(4, max(0, len(texts) - 1))
+            document_topics = [random.randint(0, max_topic_idx) for _ in texts]
         
         return {
             "topics": simulated_topics[:self.n_topics],
