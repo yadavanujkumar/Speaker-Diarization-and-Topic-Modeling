@@ -1,0 +1,25 @@
+# Speaker Diarization, Transcription, and Topic Modeling Pipeline
+# Core Dependencies
+
+# Audio processing
+pydub>=0.25.1
+
+# Transcription (OpenAI Whisper)
+openai-whisper>=20230314
+
+# Topic Modeling
+scikit-learn>=1.0.0
+
+# Optional: BERTopic for advanced topic modeling
+# bertopic>=0.15.0
+
+# Optional: Speaker Diarization with pyannote.audio
+# pyannote.audio>=2.1.0
+
+# PyTorch (required for Whisper and pyannote.audio)
+# torch>=1.9.0
+
+# Note: ffmpeg must be installed on the system for audio processing
+# Ubuntu/Debian: sudo apt-get install ffmpeg
+# macOS: brew install ffmpeg
+# Windows: Download from https://ffmpeg.org/download.html
